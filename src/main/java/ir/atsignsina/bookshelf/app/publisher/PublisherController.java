@@ -51,4 +51,9 @@ public class PublisherController {
     return ResponseEntity.status(HttpStatus.OK)
         .body(publisherService.editPublisher(id, publisherForEdit));
   }
+
+  @GetMapping("{id}/book")
+  public ResponseEntity getPublisherBooks(@PathVariable(value = "id") Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(publisherService.getPublisherBooks(id));
+  }
 }

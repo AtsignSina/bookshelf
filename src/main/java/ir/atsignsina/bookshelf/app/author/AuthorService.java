@@ -146,4 +146,14 @@ public class AuthorService {
     bookContribute.setContribute(contribute.getContribute());
     return bookContribute;
   }
+
+  /**
+   * find author and make bookContribute from its contributes
+   *
+   * @param id author id
+   * @return author contributes in books
+   */
+  List<BookContribute> getAuthorBooks(Long id) {
+    return makeBookContributes(getAuthor(id).getContributes());
+  }
 }

@@ -52,4 +52,8 @@ public class CategoryController {
         .body(categoryService.editCategory(id, categoryForEdit));
   }
 
+  @GetMapping("{id}/book")
+  public ResponseEntity getPublisherBooks(@PathVariable(value = "id") Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(categoryService.getCategoryBooks(id));
+  }
 }

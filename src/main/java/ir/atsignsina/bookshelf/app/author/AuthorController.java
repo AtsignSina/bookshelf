@@ -48,4 +48,9 @@ public class AuthorController {
       @PathVariable(value = "id") Long id, @RequestBody Author authorForEdit) {
     return ResponseEntity.status(HttpStatus.OK).body(authorService.editAuthor(id, authorForEdit));
   }
+
+  @GetMapping("{id}/book")
+  public ResponseEntity getPublisherBooks(@PathVariable(value = "id") Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(authorService.getAuthorBooks(id));
+  }
 }

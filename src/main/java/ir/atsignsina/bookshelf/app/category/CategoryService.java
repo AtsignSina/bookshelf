@@ -1,5 +1,6 @@
 package ir.atsignsina.bookshelf.app.category;
 
+import ir.atsignsina.bookshelf.app.book.Book;
 import ir.atsignsina.bookshelf.app.category.proto.CategoryCreationProto;
 import ir.atsignsina.bookshelf.concerns.exception.data.DataNotFoundException;
 import ir.atsignsina.bookshelf.concerns.exception.data.RequirementDataNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CategoryService {
@@ -140,5 +142,15 @@ public class CategoryService {
    */
   public List<Category> findByIdIn(List<Long> ids) {
     return categoryRepository.findByIdIn(ids);
+  }
+
+  /**
+   * get books of a specified category
+   *
+   * @param id category id
+   * @return books of specified category
+   */
+  Set<Book> getCategoryBooks(Long id) {
+    return getCategory(id).getBooks();
   }
 }

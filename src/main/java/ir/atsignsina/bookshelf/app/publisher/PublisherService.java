@@ -1,5 +1,6 @@
 package ir.atsignsina.bookshelf.app.publisher;
 
+import ir.atsignsina.bookshelf.app.book.Book;
 import ir.atsignsina.bookshelf.concerns.exception.data.DataNotFoundException;
 import ir.atsignsina.bookshelf.concerns.exception.request.RequestBodyException;
 import ir.atsignsina.bookshelf.concerns.utils.NilUtils;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PublisherService {
@@ -109,5 +111,16 @@ public class PublisherService {
       publisher.setDescription(publisherForEdit.getDescription());
     }
     return publisherRepository.save(publisher);
+  }
+
+  /**
+   * Get list of specified publisher book
+   *
+   * @param id publisher id
+   * @return list of books
+   */
+  Set<Book> getPublisherBooks(Long id) {
+    Publisher publisher = getPublisher(id);
+    return publisher.getBooks();
   }
 }
