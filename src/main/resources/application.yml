@@ -1,0 +1,14 @@
+server:
+  port: 9898
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    password: '1'
+    url: jdbc:h2:./bookshelf;MV_STORE=FALSE;MVCC=FALSE
+    username: 'bookshelf'
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
