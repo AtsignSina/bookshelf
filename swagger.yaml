@@ -1,0 +1,333 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Bookshelf API
+  description: >
+    This is CRUD operation simple application which written for review
+  contact: {}
+host: localhost:9898
+basePath: /
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /book/{id}:
+    put:
+      description: Customer uses this endpoint to edit specified book information
+      summary: editBook
+      tags:
+      - Book
+      operationId: BookByIdPut
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: number
+        format: double
+        description: unique id
+      - name: name
+        in: formData
+        required: false
+        type: string
+      - name: isbn
+        in: formData
+        required: false
+        type: string
+      - name: price
+        in: formData
+        required: false
+        type: integer
+        format: int32
+      responses:
+        204:
+          description: OK
+          schema:
+            $ref: '#/definitions/BookPrototype'
+          headers: {}
+        400:
+          description: There is problem in request body.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: There is problem in processing request. This problem can be permanent, transient or unknown. You should call operator if got unknown or permanent error But in case of transient error you can repeat this request. You can determine error type in value of code in response prototype
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      description: Customer uses this endpoint to delete all books
+      summary: deleteBook
+      tags:
+      - Book
+      operationId: BookByIdDelete
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: number
+        format: double
+        description: unique id
+      responses:
+        204:
+          description: DELETED
+          headers: {}
+        default:
+          description: There is problem in processing request. This problem can be permanent, transient or unknown. You should call operator if got unknown or permanent error But in case of transient error you can repeat this request. You can determine error type in value of code in response prototype
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      description: Customer uses this endpoint to get specified book information
+      summary: getBook
+      tags:
+      - Book
+      operationId: BookByIdGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: number
+        format: double
+        description: unique id
+      responses:
+        204:
+          description: OK
+          schema:
+            $ref: '#/definitions/BookPrototype'
+          headers: {}
+        default:
+          description: There is problem in processing request. This problem can be permanent, transient or unknown. You should call operator if got unknown or permanent error But in case of transient error you can repeat this request. You can determine error type in value of code in response prototype
+          schema:
+            $ref: '#/definitions/Error'
+  /book:
+    post:
+      description: Customer uses this endpoint to create a book
+      summary: createBook
+      tags:
+      - Book
+      operationId: BookPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: publisher
+        in: formData
+        required: false
+        type: integer
+        format: int32
+      - name: categories
+        in: formData
+        required: false
+        type: array
+        items:
+          type: number
+          format: double
+      - name: contributes
+        in: formData
+        required: false
+        type: array
+        items:
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/BookPrototype'
+          headers: {}
+        400:
+          description: There is problem in request body.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: There is problem in processing request. This problem can be permanent, transient or unknown. You should call operator if got unknown or permanent error But in case of transient error you can repeat this request. You can determine error type in value of code in response prototype
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      description: Customer uses this endpoint to delete all books
+      summary: deleteBooks
+      tags:
+      - Book
+      operationId: BookDelete
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        204:
+          description: DELETED
+          headers: {}
+        400:
+          description: There is problem in request body.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: There is problem in processing request. This problem can be permanent, transient or unknown. You should call operator if got unknown or permanent error But in case of transient error you can repeat this request. You can determine error type in value of code in response prototype
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      description: Customer uses this endpoint to search in book. all of books is returns if name parameter does not send
+      summary: searchBooks
+      tags:
+      - Book
+      operationId: BookGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: name
+        in: query
+        required: false
+        type: string
+        description: query which used to seach
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/BookResponse'
+          headers: {}
+        default:
+          description: There is problem in processing request. This problem can be permanent, transient or unknown. You should call operator if got unknown or permanent error But in case of transient error you can repeat this request. You can determine error type in value of code in response prototype
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  AuthorContribute:
+    title: AuthorContribute
+    type: object
+    properties:
+      author:
+        type: integer
+        format: int32
+      contribute:
+        $ref: '#/definitions/Contribute'
+  Contribute:
+    title: Contribute
+    example: AUTHOR
+    type: string
+    enum:
+    - AUTHOR
+    - INTERCEPTOR
+  Error:
+    title: Error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      timestamp:
+        type: string
+  BookPrototype:
+    title: BookPrototype
+    allOf:
+    - $ref: '#/definitions/BaseBookPrototype'
+    - type: object
+      properties:
+        publisher:
+          type: integer
+          format: int32
+        categories:
+          type: array
+          items:
+            type: number
+            format: double
+        contributes:
+          type: array
+          items:
+            $ref: '#/definitions/AuthorContribute'
+  BookCreationPrototype:
+    title: BookCreationPrototype
+    allOf:
+    - $ref: '#/definitions/BaseBookPrototype'
+    - type: object
+      properties:
+        publisher:
+          type: integer
+          format: int32
+        categories:
+          type: array
+          items:
+            type: number
+            format: double
+        contributes:
+          type: array
+          items:
+            $ref: '#/definitions/AuthorContribute'
+  BaseBookPrototype:
+    title: BaseBookPrototype
+    type: object
+    properties:
+      name:
+        type: string
+      isbn:
+        type: string
+      price:
+        type: integer
+        format: int32
+  BookResponse:
+    title: BookResponse
+    type: object
+    properties:
+      content:
+        type: array
+        items:
+          $ref: '#/definitions/BookPrototype'
+      last:
+        type: boolean
+      totalElements:
+        type: number
+        format: double
+      totalPages:
+        type: number
+        format: double
+      first:
+        type: boolean
+      numberOfElements:
+        type: number
+        format: double
+      size:
+        type: number
+        format: double
+      number:
+        type: number
+        format: double
+  Page:
+    title: Page
+    type: object
+    properties:
+      content:
+        type: object
+      last:
+        type: boolean
+      totalElements:
+        type: number
+        format: double
+      totalPages:
+        type: number
+        format: double
+      first:
+        type: boolean
+      numberOfElements:
+        type: number
+        format: double
+      size:
+        type: number
+        format: double
+      number:
+        type: number
+        format: double
+tags:
+- name: Book
+  description: Book CRUD operations
