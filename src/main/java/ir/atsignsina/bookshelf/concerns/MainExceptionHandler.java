@@ -2,6 +2,7 @@ package ir.atsignsina.bookshelf.concerns;
 
 import ir.atsignsina.bookshelf.concerns.exception.ResponseException;
 import ir.atsignsina.bookshelf.concerns.exception.ResponseExceptionType;
+import ir.atsignsina.bookshelf.concerns.utils.NilUtils;
 import org.springframework.dao.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -95,6 +96,6 @@ public class MainExceptionHandler {
     return ResponseEntity.status(status)
         .body(
             new ErrorPrototype(
-                type, message == null || message.isEmpty() ? type : message, new Date()));
+                type, NilUtils.checkNullOrEmpty(message) ? type : message, new Date()));
   }
 }

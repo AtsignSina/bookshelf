@@ -63,7 +63,7 @@ public class PublisherService {
     if (publisher.isPresent()) {
       return publisher.get();
     } else {
-      throw new DataNotFoundException("AUTHOR_NOT_FOUND");
+      throw new DataNotFoundException("PUBLISHER_NOT_FOUND");
     }
   }
 
@@ -76,7 +76,7 @@ public class PublisherService {
    * @return page of found publishers
    */
   Page<Publisher> searchPublishers(String name, Pageable pageable) {
-    return (name == null || name.isEmpty())
+    return NilUtils.checkNullOrEmpty(name)
         ? publisherRepository.findAll(pageable)
         : publisherRepository.findByNameContaining(name, pageable);
   }

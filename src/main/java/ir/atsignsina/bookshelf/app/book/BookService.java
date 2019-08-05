@@ -228,7 +228,7 @@ public class BookService {
    */
   Page<Book> searchBooks(String name, Pageable pageable) {
     Page<Book> pb =
-        (name == null || name.isEmpty())
+        NilUtils.checkNullOrEmpty(name)
             ? bookRepository.findAll(pageable)
             : bookRepository.findByNameContaining(name, pageable);
     pb.forEach(this::fillContributes);

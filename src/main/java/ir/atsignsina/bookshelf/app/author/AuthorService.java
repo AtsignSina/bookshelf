@@ -79,7 +79,7 @@ public class AuthorService {
    * @return page of found authors
    */
   Page<Author> searchAuthors(String name, Pageable pageable) {
-    return (name == null || name.isEmpty())
+    return NilUtils.checkNullOrEmpty(name)
         ? authorRepository.findAll(pageable)
         : authorRepository.findByNameContaining(name, pageable);
   }

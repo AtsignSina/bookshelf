@@ -99,7 +99,7 @@ public class CategoryService {
    * @return page of found categories
    */
   Page<Category> searchCategories(String name, Pageable pageable) {
-    return (name == null || name.isEmpty())
+    return NilUtils.checkNullOrEmpty(name)
         ? categoryRepository.findAll(pageable)
         : categoryRepository.findByNameContaining(name, pageable);
   }
